@@ -1,5 +1,6 @@
 package com.tonypepe.notilistener
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -37,7 +38,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
+                    .also { startActivity(it) }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
