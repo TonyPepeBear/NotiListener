@@ -8,6 +8,7 @@ import com.tonypepe.notilistener.R
 import com.tonypepe.notilistener.data.notice.Notice
 import com.tonypepe.notilistener.logd
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onLongClick
 
 class NoticeAdapter : PagedListAdapter<Notice, NoticeViewHolder>(
     object : DiffUtil.ItemCallback<Notice>() {
@@ -36,10 +37,12 @@ class NoticeAdapter : PagedListAdapter<Notice, NoticeViewHolder>(
             logd(it)
             holder.bindView(it)
             holder.itemView.onClick { _ -> onItemClickListener?.onItemClick(it) }
+            holder.itemView.onLongClick { _ -> onItemClickListener?.onItemLongClick(it) }
         }
     }
 }
 
 interface OnItemClickListener {
     fun onItemClick(notice: Notice)
+    fun onItemLongClick(notice: Notice)
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.notilistener.R
 import com.tonypepe.notilistener.data.notice.Notice
 import com.tonypepe.notilistener.ui.NoticeAdapter
@@ -15,6 +16,7 @@ import com.tonypepe.notilistener.ui.OnItemClickListener
 import com.tonypepe.notilistener.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
@@ -39,6 +41,18 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         viewModel.noticePagedLiveData.observe(this, Observer {
             adapter.submitList(it)
         })
+    }
+
+    override fun onItemLongClick(notice: Notice) {
+        alert {
+            title = getString(R.string.are_you_sure)
+            message = getString(R.string.delete_all)
+            positiveButton(getString(R.string.ok)) {
+                viewModel.appDatabase.deleteNoticeByTitle(notice.title)
+                Snackbar.make(recycler, R.string.delete_success, Snackbar.LENGTH_LONG).show()
+            }
+            negativeButton(getString(R.string.no)) {}
+        }.show()
     }
 
     override fun onItemClick(notice: Notice) {

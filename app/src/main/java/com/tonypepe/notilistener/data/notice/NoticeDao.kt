@@ -19,4 +19,7 @@ interface NoticeDao {
 
     @Query("select * from notice where title = :title order by time desc")
     fun getByTitle(title: String): DataSource.Factory<Int, Notice>
+
+    @Query("delete from notice where title = :title")
+    suspend fun deleteByTitle(title: String)
 }

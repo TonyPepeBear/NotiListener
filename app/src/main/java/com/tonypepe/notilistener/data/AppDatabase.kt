@@ -11,19 +11,12 @@ import com.tonypepe.notilistener.data.ignor.Ignore
 import com.tonypepe.notilistener.data.ignor.IgnoreDao
 import com.tonypepe.notilistener.data.notice.Notice
 import com.tonypepe.notilistener.data.notice.NoticeDao
+import kotlinx.coroutines.runBlocking
 
 @Database(entities = [Notice::class, Ignore::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noticeDao(): NoticeDao
     abstract fun ignoreDao(): IgnoreDao
-
-    fun getAllNoticeTitle(): LiveData<PagedList<Notice>> =
-        LivePagedListBuilder(noticeDao().getAllTitle(), 30)
-            .build()
-
-    fun getByTitle(title: String): LiveData<PagedList<Notice>> =
-        LivePagedListBuilder(noticeDao().getByTitle(title), 30)
-            .build()
 
     companion object {
         private var mInstance: AppDatabase? = null
@@ -34,6 +27,21 @@ abstract class AppDatabase : RoomDatabase() {
                     .build()
             }
             return mInstance!!
+        }
+    }
+
+    fun getAllNoticeTitle(): LiveData<PagedList<Notice>> =
+        LivePagedListBuilder(noticeDao().getAllTitle(), 30)
+            .build()
+
+
+    fun getByTitle(title: String): LiveData<PagedList<Notice>> =
+        LivePagedListBuilder(noticeDao().getByTitle(title), 30)
+            .build()
+
+    fun deleteNoticeByTitle(title: String) {
+        runBlocking {
+            noticeDao().deleteByTitle(title)
         }
     }
 }

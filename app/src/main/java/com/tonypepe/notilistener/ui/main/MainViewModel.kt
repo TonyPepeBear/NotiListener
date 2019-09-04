@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.tonypepe.notilistener.data.AppDatabase
 import com.tonypepe.notilistener.logd
 
-class MainViewModel(appDatabase: AppDatabase) : ViewModel() {
+class MainViewModel(val appDatabase: AppDatabase) : ViewModel() {
     val noticePagedLiveData = appDatabase.getAllNoticeTitle().also { logd(it) }
 }
 
