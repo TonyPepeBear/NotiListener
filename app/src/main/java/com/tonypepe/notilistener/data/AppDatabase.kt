@@ -7,12 +7,22 @@ import androidx.paging.PagedList
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.tonypepe.notilistener.data.ignor.Ignore
+import com.tonypepe.notilistener.data.ignor.IgnoreDao
+import com.tonypepe.notilistener.data.notice.Notice
+import com.tonypepe.notilistener.data.notice.NoticeDao
 
-@Database(entities = [Notice::class], version = 1)
+@Database(entities = [Notice::class, Ignore::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noticeDao(): NoticeDao
-    fun getAll(): LiveData<PagedList<Notice>> =
-        LivePagedListBuilder(noticeDao().getAll(), 30)
+    abstract fun ignoreDao(): IgnoreDao
+
+    fun getAllNoticeTitle(): LiveData<PagedList<Notice>> =
+        LivePagedListBuilder(noticeDao().getAllTitle(), 30)
+            .build()
+
+    fun getByTitle(title: String): LiveData<PagedList<Notice>> =
+        LivePagedListBuilder(noticeDao().getByTitle(title), 30)
             .build()
 
     companion object {

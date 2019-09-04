@@ -1,8 +1,8 @@
-package com.tonypepe.notilistener
+package com.tonypepe.notilistener.ui
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.tonypepe.notilistener.data.Notice
+import com.tonypepe.notilistener.data.notice.Notice
 import kotlinx.android.synthetic.main.item_notice.view.*
 
 class NoticeViewHolder(view: View) : RecyclerView.ViewHolder(view) {

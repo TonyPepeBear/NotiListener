@@ -1,4 +1,4 @@
-package com.tonypepe.notilistener
+package com.tonypepe.notilistener.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tonypepe.notilistener.R
+import com.tonypepe.notilistener.data.notice.Notice
+import com.tonypepe.notilistener.ui.NoticeAdapter
+import com.tonypepe.notilistener.ui.OnItemClickListener
+import com.tonypepe.notilistener.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.intentFor
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,11 +30,21 @@ class MainActivity : AppCompatActivity() {
         val adapter = NoticeAdapter().also {
             recycler.adapter = it
         }
-        viewModel = ViewModelProviders.of(this, MainViewModelFactory.createFactory(this))
+        adapter.onItemClickListener = this
+        viewModel = ViewModelProviders.of(
+            this,
+            MainViewModelFactory.createFactory(this)
+        )
             .get(MainViewModel::class.java)
         viewModel.noticePagedLiveData.observe(this, Observer {
             adapter.submitList(it)
         })
+    }
+
+    override fun onItemClick(notice: Notice) {
+        startActivity(
+            intentFor<DetailActivity>("TITLE" to notice.title)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -1,12 +1,13 @@
-package com.tonypepe.notilistener
+package com.tonypepe.notilistener.ui.main
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tonypepe.notilistener.data.AppDatabase
+import com.tonypepe.notilistener.logd
 
 class MainViewModel(appDatabase: AppDatabase) : ViewModel() {
-    val noticePagedLiveData = appDatabase.getAll().also { logd(it) }
+    val noticePagedLiveData = appDatabase.getAllNoticeTitle().also { logd(it) }
 }
 
 class MainViewModelFactory private constructor(val context: Context) : ViewModelProvider.Factory {
