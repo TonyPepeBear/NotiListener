@@ -26,7 +26,17 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        fab.setOnClickListener {}
+        fab.setOnClickListener {
+            alert {
+                title = getString(R.string.are_you_sure)
+                message = getString(R.string.delete_all)
+                positiveButton(R.string.ok) {
+                    viewModel.appDatabase.deleteAllNotice()
+                    Snackbar.make(recycler, R.string.delete_success, Snackbar.LENGTH_SHORT).show()
+                }
+                negativeButton(R.string.no) {}
+            }.show()
+        }
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.setHasFixedSize(true)
         val adapter = NoticeAdapter().also {

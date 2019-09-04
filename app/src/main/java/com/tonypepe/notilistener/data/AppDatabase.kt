@@ -44,4 +44,10 @@ abstract class AppDatabase : RoomDatabase() {
             noticeDao().deleteByTitle(title)
         }
     }
+
+    fun deleteAllNotice() {
+        runBlocking {
+            noticeDao().deleteAllNotice()
+        }
+    }
 }

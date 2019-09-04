@@ -22,4 +22,7 @@ interface NoticeDao {
 
     @Query("delete from notice where title = :title")
     suspend fun deleteByTitle(title: String)
+
+    @Query("delete from notice")
+    suspend fun deleteAllNotice()
 }

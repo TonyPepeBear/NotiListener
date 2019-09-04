@@ -9,6 +9,7 @@ import com.tonypepe.notilistener.R
 import com.tonypepe.notilistener.ui.NoticeAdapter
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.alert
 
 class DetailActivity : AppCompatActivity() {
     lateinit var viewModel: DetailViewModel
@@ -16,12 +17,22 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
-        fab.setOnClickListener {}
-        val title = intent.getStringExtra("TITLE")
+        val noticeTitle = intent.getStringExtra("TITLE")
+        fab.setOnClickListener {
+            alert {
+                title = getString(R.string.are_you_sure)
+                message = getString(R.string.delete_all)
+                positiveButton(R.string.ok) {
+                    finish()
+                    viewModel.appDatabase.deleteNoticeByTitle(noticeTitle!!)
+                }
+                negativeButton(R.string.no) {}
+            }.show()
+        }
         viewModel = ViewModelProviders
             .of(this, DetailViewModelFactory.createFactory(this))
             .get(DetailViewModel::class.java)
-        viewModel.title.value = title
+        viewModel.title.value = noticeTitle
         recycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@DetailActivity)
