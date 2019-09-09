@@ -66,10 +66,10 @@ class DetailActivity : AppCompatActivity() {
                     message = getString(R.string.ignore_this_package)
                     positiveButton(R.string.ok) {
                         viewModel.insertIgnore()
+                        finish()
                     }
                     negativeButton(R.string.no) {}
                 }.show()
-                finish()
                 true
             }
             else -> true
