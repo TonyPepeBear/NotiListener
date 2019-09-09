@@ -50,4 +50,16 @@ abstract class AppDatabase : RoomDatabase() {
             noticeDao().deleteAllNotice()
         }
     }
+
+    fun deleteNoticeByPackage(pak: String) {
+        runBlocking {
+            noticeDao().deleteByPackage(pak)
+        }
+    }
+
+    fun insertIgnore(ignore: Ignore) {
+        runBlocking {
+            ignoreDao().insert(ignore)
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package com.tonypepe.notilistener.ui.detail
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,12 +15,13 @@ import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 
 class DetailActivity : AppCompatActivity() {
+    lateinit var noticeTitle: String
     lateinit var viewModel: DetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
-        val noticeTitle = intent.getStringExtra("TITLE")
+        noticeTitle = intent.getStringExtra("TITLE") ?: ""
         fab.setOnClickListener {
             alert {
                 title = getString(R.string.are_you_sure)
@@ -48,5 +51,28 @@ class DetailActivity : AppCompatActivity() {
         viewModel.data.observe(this, Observer {
             adapter.submitList(it)
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_ignore -> {
+                alert {
+                    title = getString(R.string.are_you_sure)
+                    message = getString(R.string.ignore_this_package)
+                    positiveButton(R.string.ok) {
+                        viewModel.insertIgnore()
+                    }
+                    negativeButton(R.string.no) {}
+                }.show()
+                finish()
+                true
+            }
+            else -> true
+        }
     }
 }

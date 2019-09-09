@@ -3,7 +3,7 @@ package com.tonypepe.notilistener.data.ignor
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "ignore-notice")
+@Entity(tableName = "ig")
 data class Ignore(
     @PrimaryKey val pak: String
 )

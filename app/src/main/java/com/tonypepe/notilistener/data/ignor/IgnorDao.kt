@@ -5,11 +5,11 @@ import androidx.room.*
 
 @Dao
 interface IgnoreDao {
-    @Query("select * from `ignore-notice`")
+    @Query("select * from ig")
     fun getAllLiveData(): LiveData<List<Ignore>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(ignore: Ignore)
+    suspend fun insert(ignore: Ignore)
 
     @Delete
     fun delete(ignore: Ignore)
