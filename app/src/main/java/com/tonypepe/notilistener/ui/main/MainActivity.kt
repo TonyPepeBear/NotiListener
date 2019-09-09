@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.notilistener.R
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         }
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.setHasFixedSize(true)
+        recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         val adapter = NoticeAdapter().also {
             recycler.adapter = it
         }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tonypepe.notilistener.R
 import com.tonypepe.notilistener.ui.NoticeAdapter
@@ -36,6 +37,12 @@ class DetailActivity : AppCompatActivity() {
         recycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@DetailActivity)
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@DetailActivity,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
         val adapter = NoticeAdapter().also { recycler.adapter = it }
         viewModel.data.observe(this, Observer {
