@@ -30,9 +30,8 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    fun getAllNoticeTitle(): LiveData<PagedList<Notice>> =
-        LivePagedListBuilder(noticeDao().getAllTitle(), 30)
-            .build()
+    fun getAllNoticeTitle() = LivePagedListBuilder(noticeDao().getAllTitle(), 30)
+        .build()
 
 
     fun getByTitle(title: String): LiveData<PagedList<Notice>> =
@@ -56,6 +55,9 @@ abstract class AppDatabase : RoomDatabase() {
             noticeDao().deleteByPackage(pak)
         }
     }
+
+    fun getAllIgnore() = LivePagedListBuilder(ignoreDao().getAllPagedData(), 30)
+        .build()
 
     fun insertIgnore(ignore: Ignore) {
         runBlocking {

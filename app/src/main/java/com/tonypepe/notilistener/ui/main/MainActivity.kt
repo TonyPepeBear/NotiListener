@@ -15,6 +15,7 @@ import com.tonypepe.notilistener.data.notice.Notice
 import com.tonypepe.notilistener.ui.NoticeAdapter
 import com.tonypepe.notilistener.ui.OnItemClickListener
 import com.tonypepe.notilistener.ui.detail.DetailActivity
+import com.tonypepe.notilistener.ui.ignore.IgnoreActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
@@ -83,6 +84,10 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             R.id.action_settings -> {
                 Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
                     .also { startActivity(it) }
+                true
+            }
+            R.id.action_ignore_list -> {
+                startActivity(intentFor<IgnoreActivity>())
                 true
             }
             else -> super.onOptionsItemSelected(item)

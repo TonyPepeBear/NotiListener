@@ -9,4 +9,5 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="delete_success">Delete Success</string>
     <string name="ignore_this_package">Ignore this package?</string>
+    <string name="title_activity_ignore">IgnoreActivity</string>
 </resources>
