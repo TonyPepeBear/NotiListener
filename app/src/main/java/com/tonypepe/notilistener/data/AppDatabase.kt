@@ -33,6 +33,10 @@ abstract class AppDatabase : RoomDatabase() {
     fun getAllNoticeTitle() = LivePagedListBuilder(noticeDao().getAllTitle(), 30)
         .build()
 
+    fun getAllNoticeTitleBySearch(title: String) =
+        LivePagedListBuilder(noticeDao().getAllTitleBySearch(title), 30)
+            .build()
+
 
     fun getByTitle(title: String): LiveData<PagedList<Notice>> =
         LivePagedListBuilder(noticeDao().getByTitle(title), 30)

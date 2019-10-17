@@ -17,6 +17,9 @@ interface NoticeDao {
     @Query("select * from notice group by title having count() > 1 order by time desc")
     fun getAllTitle(): DataSource.Factory<Int, Notice>
 
+    @Query("select * from notice where title like '%' || :title || '%' group by title having count() > 1 order by time desc")
+    fun getAllTitleBySearch(title: String): DataSource.Factory<Int, Notice>
+
     @Query("select * from notice where title = :title order by time desc")
     fun getByTitle(title: String): DataSource.Factory<Int, Notice>
 
