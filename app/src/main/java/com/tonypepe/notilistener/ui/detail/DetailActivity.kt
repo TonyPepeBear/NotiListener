@@ -9,12 +9,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tonypepe.notilistener.R
+import com.tonypepe.notilistener.copyToClipboard
+import com.tonypepe.notilistener.data.notice.Notice
 import com.tonypepe.notilistener.ui.NoticeAdapter
+import com.tonypepe.notilistener.ui.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), OnItemClickListener {
+    companion object {
+        const val NOTICE_TEXT_LABLE = "notice text"
+    }
+
     lateinit var noticeTitle: String
     lateinit var viewModel: DetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +35,7 @@ class DetailActivity : AppCompatActivity() {
                 message = getString(R.string.delete_all)
                 positiveButton(R.string.ok) {
                     finish()
-                    viewModel.appDatabase.deleteNoticeByTitle(noticeTitle!!)
+                    viewModel.appDatabase.deleteNoticeByTitle(noticeTitle)
                 }
                 negativeButton(R.string.no) {}
             }.show()
@@ -47,7 +54,10 @@ class DetailActivity : AppCompatActivity() {
                 )
             )
         }
-        val adapter = NoticeAdapter().also { recycler.adapter = it }
+        val adapter = NoticeAdapter().also {
+            it.onItemClickListener = this
+            recycler.adapter = it
+        }
         viewModel.data.observe(this, Observer {
             adapter.submitList(it)
         })
@@ -74,5 +84,13 @@ class DetailActivity : AppCompatActivity() {
             }
             else -> true
         }
+    }
+
+    override fun onItemClick(notice: Notice) {
+        copyToClipboard(NOTICE_TEXT_LABLE, notice.text)
+    }
+
+    override fun onItemLongClick(notice: Notice) {
+
     }
 }
