@@ -7,12 +7,9 @@ import com.tonypepe.notilistener.data.AppDatabase
 import com.tonypepe.notilistener.data.notice.Notice
 
 class MainViewModel(val appDatabase: AppDatabase) : ViewModel() {
-    //    val noticePagedLiveData = appDatabase.getAllNoticeTitle().also { logd(it) }
     private val query = MutableLiveData<String>().also { it.value = "" }
     val noticePagedLiveData: LiveData<PagedList<Notice>> =
-        Transformations.switchMap(
-            query
-        ) { input ->
+        Transformations.switchMap(query) { input ->
             if (input != "")
                 appDatabase.getAllNoticeTitleBySearch(input)
             else
@@ -23,6 +20,14 @@ class MainViewModel(val appDatabase: AppDatabase) : ViewModel() {
         newText?.let {
             query.value = newText
         }
+    }
+
+    fun delete(notice: Notice) {
+        appDatabase.deleteSingleNotice(notice)
+    }
+
+    fun insertNotice(notice: Notice) {
+        appDatabase.insertNotice(notice)
     }
 }
 

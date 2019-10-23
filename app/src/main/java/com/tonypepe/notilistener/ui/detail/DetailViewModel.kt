@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tonypepe.notilistener.data.AppDatabase
 import com.tonypepe.notilistener.data.ignor.Ignore
+import com.tonypepe.notilistener.data.notice.Notice
 
 class DetailViewModel(val appDatabase: AppDatabase) : ViewModel() {
     val title = MutableLiveData<String>()
@@ -18,6 +19,14 @@ class DetailViewModel(val appDatabase: AppDatabase) : ViewModel() {
             insertIgnore(ignore)
             deleteNoticeByPackage(ignore.pak)
         }
+    }
+
+    fun delete(notice: Notice) {
+        appDatabase.deleteSingleNotice(notice)
+    }
+
+    fun insertNotice(notice: Notice) {
+        appDatabase.insertNotice(notice)
     }
 }
 
