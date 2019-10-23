@@ -7,11 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.tonypepe.notilistener.R
 import com.tonypepe.notilistener.copyToClipboard
 import com.tonypepe.notilistener.data.notice.Notice
 import com.tonypepe.notilistener.ui.NoticeAdapter
+import com.tonypepe.notilistener.ui.NoticeViewHolder
 import com.tonypepe.notilistener.ui.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -61,11 +65,41 @@ class DetailActivity : AppCompatActivity(), OnItemClickListener {
         viewModel.data.observe(this, Observer {
             adapter.submitList(it)
         })
+        initAction()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         return true
+    }
+
+    private fun initAction() {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) = makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val noticeViewHolder = viewHolder as NoticeViewHolder
+                noticeViewHolder.notice?.let { notice ->
+                    viewModel.delete(notice)
+                    Snackbar.make(recycler, "Delete Success", Snackbar.LENGTH_LONG)
+                        .setAction("undo") {
+                            viewModel.insertNotice(notice)
+                        }.show()
+                }
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(recycler)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

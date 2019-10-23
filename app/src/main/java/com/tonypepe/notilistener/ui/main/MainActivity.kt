@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 
+
 class MainActivity : AppCompatActivity(), OnItemClickListener, SearchView.OnQueryTextListener {
     lateinit var viewModel: MainViewModel
     lateinit var adapter: NoticeAdapter
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, SearchView.OnQuer
                     viewModel.appDatabase.deleteAllNotice()
                     Snackbar.make(recycler, R.string.delete_success, Snackbar.LENGTH_SHORT).show()
                 }
+
                 negativeButton(R.string.no) {}
             }.show()
         }
@@ -59,6 +61,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, SearchView.OnQuer
             adapter.submitList(it)
         })
     }
+
     override fun onItemLongClick(notice: Notice) {
         alert {
             title = getString(R.string.are_you_sure)
